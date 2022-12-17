@@ -11,11 +11,11 @@ provider:
     role:
       statements:
         - Effect: Allow
-          Action: 
-            - 's3:GetObject'
-            - 's3:PutObject'
+          Action:
+            - "s3:GetObject"
+            - "s3:PutObject"
           Resource:
-            - 'arn:aws:s3:::tn-search/*'
+            - "arn:aws:s3:::tn-search/*"
 
 plugins:
   - serverless-offline
@@ -25,7 +25,7 @@ functions:
     handler: functions/search.search
     events:
       - httpApi: "GET /search"
-  feathNew:
-    handler: functions/feathNew.feathNew
-  feathAll:
-    handler: functions/feathAll.feathAll
+  fetchNew:
+    handler: functions/fetchNew.fetchNew
+  fetchAll:
+    handler: functions/fetchAll.fetchAll
