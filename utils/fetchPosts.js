@@ -7,7 +7,7 @@ function formatPosts(posts) {
             slug: post.slug,
             title: post.title,
             status: post.status,
-            created_at: post.created_at,
+            published_at: post.published_at,
             owner_username: post.owner_username,
             tabcoins: post.tabcoins,
             children_deep_count: post.children_deep_count

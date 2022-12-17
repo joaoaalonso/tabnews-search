@@ -36,7 +36,7 @@ async function getInstance() {
                 slug: "string",
                 title: "string",
                 status: "string",
-                created_at: "string",
+                published_at: "string",
                 owner_username: "string",
                 tabcoins: "number",
                 children_deep_count: "number"
