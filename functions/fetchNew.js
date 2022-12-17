@@ -2,8 +2,6 @@ const fecthPosts = require('../utils/fetchPosts')
 const { savePosts, loadPosts } = require('../utils/s3')
 
 module.exports.fetchNew = async (event) => {
-    const start = new Date()
-
     let posts = await loadPosts()
     let nextPage = 1
     let hasMore = true
@@ -12,9 +10,6 @@ module.exports.fetchNew = async (event) => {
     let postsToAdd = []
 
     while(hasMore) {
-        const partialStart = new Date()
-
-        console.log(`Getting page ${nextPage}`)
         const recentPosts = await fecthPosts(nextPage, 100, 'new')
         const newPosts = []
 
@@ -26,24 +21,17 @@ module.exports.fetchNew = async (event) => {
             newPosts.unshift(post)
         }   
 
-        const partialEnd = new Date()
-        const partialElapsedTime = partialEnd - partialStart
-
         if (newPosts.length) {
-            console.log(`Added ${newPosts.length} new posts on page ${nextPage} in ${partialElapsedTime}ms`)
             postsToAdd = newPosts.concat(postsToAdd)
             nextPage++
-        } else {
-            console.log(`Nothing to add`)
         }
     }
 
     if (postsToAdd.length) {
         posts = posts.concat(postsToAdd)
         await savePosts(posts)
-
-        const end = new Date()
-        const elapsed = end - start
-        console.log(`\nTotal: Added ${postsToAdd.length} new posts in ${elapsed}ms`)
+        console.log(`Added ${postsToAdd.length} new posts`)
+    } else {
+        console.log(`Nothing to add`)
     }
 }
