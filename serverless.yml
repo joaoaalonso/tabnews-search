@@ -1,0 +1,31 @@
+service: tabnews-search
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs16.x
+  deploymentMethod: direct
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: 
+            - 's3:GetObject'
+            - 's3:PutObject'
+          Resource:
+            - 'arn:aws:s3:::tn-search/*'
+
+plugins:
+  - serverless-offline
+
+functions:
+  search:
+    handler: functions/search.search
+    events:
+      - httpApi: "GET /search"
+  feathNew:
+    handler: functions/feathNew.feathNew
+  feathAll:
+    handler: functions/feathAll.feathAll

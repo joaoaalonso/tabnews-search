@@ -1,0 +1,20 @@
+{
+  "name": "tabnews-search",
+  "version": "1.0.0",
+  "description": "<!-- title: 'AWS NodeJS Example' description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.' layout: Doc framework: v3 platform: AWS language: nodeJS priority: 1 authorLink: 'https://github.com/serverless' authorName: 'Serverless, inc.' authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4' -->",
+  "main": "handler.js",
+  "scripts": {
+    "dev": "sls offline --noTimeout"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^3.25.1",
+    "serverless-offline": "^12.0.3"
+  },
+  "dependencies": {
+    "@lyrasearch/lyra": "^0.3.1",
+    "aws-sdk": "^2.1277.0",
+    "axios": "^1.2.1"
+  }
+}
