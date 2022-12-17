@@ -29,6 +29,10 @@ functions:
   fetchNew:
     handler: functions/fetchNew.fetchNew
     timeout: 300
+    events:
+      - schedule: rate(2 hours)
   fetchAll:
     handler: functions/fetchAll.fetchAll
     timeout: 900
+    events:
+      - schedule: cron(0 3 * * ? *)
