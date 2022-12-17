@@ -23,9 +23,12 @@ plugins:
 functions:
   search:
     handler: functions/search.search
+    timeout: 10
     events:
       - httpApi: "GET /search"
   fetchNew:
     handler: functions/fetchNew.fetchNew
+    timeout: 300
   fetchAll:
     handler: functions/fetchAll.fetchAll
+    timeout: 900
