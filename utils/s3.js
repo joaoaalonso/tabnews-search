@@ -1,5 +1,4 @@
 const fs = require('fs')
-const path = require('path')
 const AWS = require('aws-sdk')
 
 const BUCKET_NAME = 'tn-search'
@@ -20,7 +19,7 @@ function loadDB() {
     }
 
     return new Promise((resolve, reject) => {
-        const dbPath = path.join(__dirname, 'db.msp')
+        const dbPath = '/tmp/db.msp'
         s3.getObject(params, function (err, data) {
             if (err) {
                 reject(err)
