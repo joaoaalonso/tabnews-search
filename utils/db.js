@@ -1,6 +1,8 @@
 const fs = require('fs')
 const lyra = require('@lyrasearch/lyra')
-const { loadPosts } = require('./s3')
+const { loadPosts, loadDB } = require('./s3')
+const { importInstance, restoreFromFile } = require('@lyrasearch/plugin-data-persistence')
+const { hasUncaughtExceptionCaptureCallback } = require('process')
 
 let _cachedDb
 const CACHE_TIME_IN_MINUTES = 90
@@ -37,23 +39,28 @@ function saveCachedDb(db) {
 async function getInstance() {
     let cachedDb = getCachedDb()
     if (!cachedDb) {
-        const start = new Date()
-        const db = lyra.create({
-            schema: {
-                id: "string",
-                slug: "string",
-                title: "string",
-                status: "string",
-                published_at: "string",
-                owner_username: "string",
-                tabcoins: "number",
-                children_deep_count: "number"
-            },
-            defaultLanguage: "portuguese"
-        })
-        const end = new Date()
-        console.log(`Created instance in ${end - start}ms`)
-        cachedDb = await insertData(db)
+        const startA = new Date()
+        const dbData = await loadDB()
+        const endA = new Date()
+        console.log(`Data loaded in ${endA - startA}ms`)
+        const startB = new Date()
+        cachedDb = restoreFromFile('binary', dbData)
+        const endB = new Date()
+        console.log(`DB created in ${endB - startB}ms`)
+        // const db = lyra.create({
+        //     schema: {
+        //         id: "string",
+        //         slug: "string",
+        //         title: "string",
+        //         status: "string",
+        //         published_at: "string",
+        //         owner_username: "string",
+        //         tabcoins: "number",
+        //         children_deep_count: "number"
+        //     },
+        //     defaultLanguage: "portuguese"
+        // })
+        // cachedDb = await insertData(db)
         saveCachedDb(cachedDb)
     }
     return cachedDb
