@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Getting data
+        run: node ./utils/downloadData.js
+
       - name: Deploy
         run: node ./node_modules/.bin/serverless deploy
         env:

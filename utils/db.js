@@ -1,11 +1,24 @@
+const fs = require('fs')
 const lyra = require('@lyrasearch/lyra')
 const { loadPosts } = require('./s3')
 
 let _cachedDb
 const CACHE_TIME_IN_MINUTES = 60
 
+function getPosts() {
+    const FILE_NAME = './posts.json'
+    if (fs.existsSync(FILE_NAME)) {
+        console.log('Loading from filesystem')
+        const posts = fs.readFileSync(FILE_NAME)
+        return JSON.parse(posts)
+    } else {
+        console.log('Loading from S3')
+        return loadPosts()
+    }
+}
+
 async function insertData(db) {
-    const data = await loadPosts()
+    const data = await getPosts()
     await lyra.insertBatch(db, data)
     return db
 }
