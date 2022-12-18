@@ -6,8 +6,14 @@ let _cachedDb
 const CACHE_TIME_IN_MINUTES = 90
 
 async function insertData(db) {
+    const startA = new Date()
     const data = await loadPosts()
+    const endA = new Date()
+    console.log(`Data loaded in ${endA - startA}ms`)
+    const startB = new Date()
     await lyra.insertBatch(db, data)
+    const endB = new Date()
+    console.log(`Data inserted in ${endB - startB}ms`)
     return db
 }
 
@@ -31,6 +37,7 @@ function saveCachedDb(db) {
 async function getInstance() {
     let cachedDb = getCachedDb()
     if (!cachedDb) {
+        const start = new Date()
         const db = lyra.create({
             schema: {
                 id: "string",
@@ -44,6 +51,8 @@ async function getInstance() {
             },
             defaultLanguage: "portuguese"
         })
+        const end = new Date()
+        console.log(`Created instance in ${end - start}ms`)
         cachedDb = await insertData(db)
         saveCachedDb(cachedDb)
     }
