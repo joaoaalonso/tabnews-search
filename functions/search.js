@@ -7,6 +7,22 @@ function formatResults(results) {
     return results.hits.map(result => result.document)
 }
 
+function sortResults(results) {
+    return results.sort((a, b) => {
+        if (b.tabcoins > a.tabcoins) {
+            return 1
+        } else if (b.tabcoins < a.tabcoins) {
+            return -1
+        } else if (b.children_deep_count > a.children_deep_count) {
+            return 1
+        } else if (b.children_deep_count < a.children_deep_count) {
+            return -1
+        } else {
+            return 0
+        }
+    })
+}
+
 module.exports.search = async (event) => {
     const { term, page = 1 } = event.queryStringParameters || {}
 
@@ -27,6 +43,7 @@ module.exports.search = async (event) => {
             })
         })
         .then(formatResults)
+        .then(sortResults)
         .then(results => {
             return {
                 statusCode: 200,
