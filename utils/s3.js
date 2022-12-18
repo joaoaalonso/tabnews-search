@@ -1,4 +1,3 @@
-const fs = require('fs')
 const AWS = require('aws-sdk')
 
 const BUCKET_NAME = 'tn-search'
@@ -7,27 +6,6 @@ const POSTS_FILE_NAME = 'posts.json'
 function getS3() {
     return new AWS.S3({
         Bucket: BUCKET_NAME
-    })
-}
-
-function loadDB() {
-    const s3 = getS3()
-
-    const params = {
-        Bucket: BUCKET_NAME,
-        Key: 'db.msp'
-    }
-
-    return new Promise((resolve, reject) => {
-        const dbPath = '/tmp/db.msp'
-        s3.getObject(params, function (err, data) {
-            if (err) {
-                reject(err)
-            } else {
-                fs.writeFileSync(dbPath, data.Body)
-                resolve(dbPath)
-            }
-        })
     })
 }
 
@@ -75,6 +53,5 @@ async function savePosts(data) {
 
 module.exports = {
     savePosts,
-    loadPosts,
-    loadDB
+    loadPosts
 }
