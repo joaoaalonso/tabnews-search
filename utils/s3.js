@@ -44,7 +44,7 @@ async function savePosts(data) {
     }
 
     return new Promise((resolve, reject) => {
-        s3.upload(params, function(err, data) {
+        s3.putObject(params, function(err, data) {
             if (err) {
                 reject(err)
             } else {
