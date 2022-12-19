@@ -12,7 +12,7 @@ provider:
       statements:
         - Effect: Allow
           Action:
-            - "s3:*Object"
+            - "s3:*"
           Resource:
             - "arn:aws:s3:::tn-search/*"
 
