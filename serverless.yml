@@ -30,7 +30,7 @@ functions:
     handler: functions/fetchNew.fetchNew
     timeout: 300
     events:
-      - schedule: rate(2 hours)
+      - schedule: rate(3 hours)
   fetchAll:
     handler: functions/fetchAll.fetchAll
     timeout: 900
