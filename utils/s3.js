@@ -1,35 +1,38 @@
-const AWS = require('aws-sdk')
+const S3SyncClient = require('s3-sync-client')
+const { S3, S3Client } = require('@aws-sdk/client-s3')
 
+const streamToString = require('./streamToString')
+
+const REGION = 'us-east-1'
 const BUCKET_NAME = 'tn-search'
 const POSTS_FILE_NAME = 'posts.json'
-
-function getS3() {
-    return new AWS.S3({
-        Bucket: BUCKET_NAME
-    })
-}
+const TAGS_FOLDER_NAME = 'tags'
 
 function loadPosts() {
-    const s3 = getS3()
+    const s3 = new S3({ region: REGION })
 
     const params = {
         Bucket: BUCKET_NAME,
         Key: POSTS_FILE_NAME
     }
-
+    
     return new Promise((resolve, reject) => {
         s3.getObject(params, function (err, data) {
             if (err) {
+                console.log(2)
                 reject(err)
             } else {
-                resolve(JSON.parse(data.Body))
+                streamToString(data.Body)
+                    .then(body => {
+                        resolve(JSON.parse(body))
+                    })
             }
         })
     })
 }
 
 async function savePosts(data) {
-    const s3 = getS3()
+    const s3 = new S3({ region: REGION })
     const buffer = Buffer.from(JSON.stringify(data))
     
     const params = {
@@ -51,7 +54,14 @@ async function savePosts(data) {
     })
 }
 
+async function syncTags(folderPath) {
+    const s3Client = new S3Client({ region: REGION })
+    const { sync } = new S3SyncClient({ client: s3Client });
+    return sync(folderPath, `s3://${BUCKET_NAME}/${TAGS_FOLDER_NAME}`, { del: true });
+}
+
 module.exports = {
     savePosts,
-    loadPosts
+    loadPosts,
+    syncTags
 }

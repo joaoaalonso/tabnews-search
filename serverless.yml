@@ -36,3 +36,8 @@ functions:
     timeout: 900
     events:
       - schedule: cron(0 3 * * ? *)
+  tags:
+    handler: functions/tags.tags
+    timeout: 300
+    events:
+      - schedule: rate(3 hours)
