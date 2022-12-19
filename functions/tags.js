@@ -49,7 +49,7 @@ function writeFiles(posts, tags, tagsFolderPath) {
 module.exports.tags = async (event) => {
     const posts = await loadPosts()
     const filteredPosts = getFilteredPosts(posts, tagsConfig)
-    const folderPath = path.join('tmp', 'tags')
+    const folderPath = '/tmp/tags'
     writeFiles(filteredPosts, tagsConfig, folderPath)
     await syncTags(folderPath)
     fs.rmSync(folderPath, { recursive: true, force: true })
