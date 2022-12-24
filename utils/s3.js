@@ -58,11 +58,7 @@ async function syncTags(folderPath) {
     const s3Client = new S3Client({ region: REGION })
     const { sync } = new S3SyncClient({ client: s3Client });
     const options = {
-        del: true,
-        commandInput: {
-            ContentEncoding: 'base64',
-            ContentType: 'application/json'
-        }
+        del: true
     }
     return sync(folderPath, `s3://${BUCKET_NAME}/${TAGS_FOLDER_NAME}`, options);
 }

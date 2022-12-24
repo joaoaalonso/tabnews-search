@@ -2,7 +2,7 @@ const lyra = require('@lyrasearch/lyra')
 const getInstance = require('../utils/db')
 const { sortByRelevance } = require('../utils/sort')
 
-const resultsPerPage = 20
+const resultsPerPage = 30
 
 function formatResults(results) {
     return results.hits.map(result => result.document)

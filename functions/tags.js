@@ -32,7 +32,7 @@ function writeFiles(posts, tags, tagsFolderPath) {
     Object.keys(posts).map(tag => {
         availableTags.push({ name: tags[tag].name, slug: tag })
     
-        const pageSize = 20
+        const pageSize = 30
         const folderPath = path.join(tagsFolderPath, tag)
         fs.mkdirSync(folderPath, { recursive: true })
         const pageCount = Math.ceil(posts[tag].length / pageSize)
