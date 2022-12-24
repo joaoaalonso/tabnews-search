@@ -15,7 +15,7 @@ module.exports = {
         owner_username: []
     },
     duvidas: {
-        name: 'Duvidas',
+        name: 'Dúvidas',
         title: ['duvida', 'dúvida', '[duvida', '[dúvida'],
         owner_username: []
     },
